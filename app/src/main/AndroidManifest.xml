@@ -13,16 +13,48 @@
         android:theme="@style/Theme.WorldSchoolsTeams"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.WorldSchoolsTeams">
+            android:name=".src.components.Posts"
+            android:exported="true" >
+
+        </activity>
+        <activity
+            android:name=".src.components.NavigationBar"
+            android:exported="true" />
+        <activity
+            android:name=".src.components.Header"
+            android:exported="false" />
+        <activity
+            android:name=".src.navigations.BottomNavigationBar"
+            android:exported="false" />
+        <activity
+            android:name=".src.screens.MenuScreen"
+            android:exported="false" />
+        <activity
+            android:name=".src.screens.GamesScreen"
+            android:exported="false" />
+        <activity
+            android:name=".src.screens.HomeScreen"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".src.screens.VideoScreen"
+            android:exported="false" />
+        <activity
+            android:name=".src.screens.PodcastsScreen"
+            android:exported="true" />
+        <activity
+            android:name=".src.components.BottomBar"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.WorldSchoolsTeams" />
     </application>
 
 </manifest>
