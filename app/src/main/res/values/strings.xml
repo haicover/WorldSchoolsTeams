@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">WorldSchoolsTeams</string>
+
+    <string name="facebook_app_id">1082553199900562</string>
+    <string name="fb_login_protocol_scheme">fb1082553199900562</string>
+    <string name="facebook_client_token">095f11bd23b0fbab3a3f3311412d729a</string>
+
+
 </resources>

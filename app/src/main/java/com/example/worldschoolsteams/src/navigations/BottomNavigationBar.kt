@@ -1,112 +1,162 @@
 package com.example.worldschoolsteams.src.navigations
 
 import android.annotation.SuppressLint
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.media.MediaPlayer
+import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.graphics.Color
-import androidx.navigation.NavController
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.worldschoolsteams.src.screens.GamesScreen
-import com.example.worldschoolsteams.src.screens.HomeScreen
-import com.example.worldschoolsteams.src.screens.MenuScreen
-import com.example.worldschoolsteams.src.screens.PodcastsScreen
-import com.example.worldschoolsteams.src.screens.VideoScreen
+import androidx.navigation.navArgument
+import com.example.worldschoolsteams.src.components.BottomBar
+import com.example.worldschoolsteams.src.data.AuthViewModel
+import com.example.worldschoolsteams.ui.screen.CommentExample
+import com.example.worldschoolsteams.ui.screen.WelcomeScreen
+import com.example.worldschoolsteams.ui.screen.baiviet.BaiVietChiTiet
+import com.example.worldschoolsteams.ui.screen.baiviet.PostsScreen
+import com.example.worldschoolsteams.ui.screen.baiviet.PostsViewModel
+import com.example.worldschoolsteams.ui.screen.game.GameSnake
+import com.example.worldschoolsteams.ui.screen.game.GamesScreen
+import com.example.worldschoolsteams.ui.screen.home.HomeScreen
+import com.example.worldschoolsteams.ui.screen.login.LoginScreen
+import com.example.worldschoolsteams.ui.screen.menu.AccountEditScreen
+import com.example.worldschoolsteams.ui.screen.menu.MenuScreen
+import com.example.worldschoolsteams.ui.screen.menu.SavedPostsScreen
+import com.example.worldschoolsteams.ui.screen.menu.WatchLaterScreen
+import com.example.worldschoolsteams.ui.screen.podcasts.MediaPlayerHolder
+import com.example.worldschoolsteams.ui.screen.podcasts.PodcastDetailScreen
+import com.example.worldschoolsteams.ui.screen.podcasts.PodcastsScreen
+import com.example.worldschoolsteams.ui.screen.podcasts.podcastItem
+import com.example.worldschoolsteams.ui.screen.search.SearchChiTiet
+import com.example.worldschoolsteams.ui.screen.search.SearchScreen
+import com.example.worldschoolsteams.ui.screen.signup.SignUpScreen
+import com.example.worldschoolsteams.ui.screen.video.VideoScreen
 
-class BottomNavigationBar : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-}
-
-class BottomNavigationActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            BottomNavigationExample()
-        }
-    }
-}
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun BottomNavigationExample() {
+    val context = LocalContext.current
     val navController = rememberNavController()
-
+    val authViewModel: AuthViewModel = viewModel()
+    val viewModel: PostsViewModel = viewModel()
     Scaffold(
-        bottomBar = { BottomNavigationBar(navController = navController) }
-    ) {
-        NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
-            composable(Screen.HomeScreen.route) { HomeScreen() }
-            composable(Screen.PodcastsScreen.route) { PodcastsScreen() }
-            composable(Screen.VideoScreen.route) { VideoScreen() }
-            composable(Screen.GamesScreen.route) { GamesScreen() }
-            composable(Screen.MenuScreen.route) { MenuScreen() }
+        bottomBar = {
+            BottomBar(navController = navController)
+        }
+    ) { paddingValues ->
+        NavHost(
+            navController = navController,
+            startDestination = "Home",
+            modifier = Modifier.padding(paddingValues),
+        ) {
+            composable("Home") { HomeScreen(navController = navController) }
+            composable("Podcasts") {
+                PodcastsScreen(
+                    navController = navController,
+                )
+            }
+            composable("Video") {  backStackEntry ->
+                val category = backStackEntry.arguments?.getString("category") ?: "Mới nhất"
+                VideoScreen(category,navController = navController) }
+            composable("Games") { GamesScreen(navController = navController) }
+            composable("Menu") {
+                MenuScreen(
+                    navController = navController,
+                    viewModel = viewModel
+                )
+            }
+
+
+            composable("Search") { SearchScreen(navController = navController) }
+            composable("SearchChiTiet/{itemTitle}") { backStackEntry ->
+                val itemTitle = backStackEntry.arguments?.getString("itemTitle") ?: ""
+                SearchChiTiet(navController = navController)
+            }
+            composable(
+                route = "BaiVietChiTiet/{id}/{title}/{description}/{imageUrl}/{timeAgo}/{category}/{date}",
+                arguments = listOf(
+                    navArgument("id") { type = NavType.StringType },
+                    navArgument("title") { type = NavType.StringType },
+                    navArgument("description") { type = NavType.StringType },
+                    navArgument("imageUrl") { type = NavType.StringType },
+                    navArgument("timeAgo") { type = NavType.StringType },
+                    navArgument("category") { type = NavType.StringType },
+                    navArgument("date") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                // Retrieve arguments from the backStackEntry
+                val id = backStackEntry.arguments?.getString("id") ?: ""
+                val title = backStackEntry.arguments?.getString("title") ?: ""
+                val description = backStackEntry.arguments?.getString("description") ?: ""
+                val imageUrl = backStackEntry.arguments?.getString("imageUrl") ?: ""
+                val timeAgo = backStackEntry.arguments?.getString("timeAgo") ?: ""
+                val category = backStackEntry.arguments?.getString("category") ?: ""
+                val date = backStackEntry.arguments?.getString("date") ?: ""
+                BaiVietChiTiet(
+                    id = id,
+                    title = title,
+                    description = description,
+                    imageUrl = imageUrl,
+                    timeAgo = timeAgo,
+                    category = category,
+                    date = date,
+                    navController = navController
+                )
+            }
+            composable(
+                "podcast_detail/{id}/{audioResId}/{imageUrl}/{title}/{description}/{date}",
+                arguments = listOf(
+                    navArgument("id") { type = NavType.IntType },
+                    navArgument("audioResId") { type = NavType.IntType },
+                    navArgument("imageUrl") { type = NavType.StringType },
+                    navArgument("title") { type = NavType.StringType },
+                    navArgument("description") { type = NavType.StringType },
+                    navArgument("date") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val id = backStackEntry.arguments?.getInt("id") ?: 0
+                val audioResId = backStackEntry.arguments?.getInt("audioResId") ?: 0
+                val imageUrl = backStackEntry.arguments?.getString("imageUrl") ?: ""
+                val title = backStackEntry.arguments?.getString("title") ?: ""
+                val description = backStackEntry.arguments?.getString("description") ?: ""
+                val date = backStackEntry.arguments?.getString("date") ?: ""
+                PodcastDetailScreen(
+                    id = id,
+                    audioResId = audioResId,
+                    imageUrl = imageUrl,
+                    title = title,
+                    description = description,
+                    date = date,
+                    navController = navController,
+                    mediaPlayer = MediaPlayerHolder.mediaPlayer,
+                )
+            }
+            composable("PostsScreen?category={category}") { backStackEntry ->
+                val category = backStackEntry.arguments?.getString("category") ?: "Mới nhất"
+                PostsScreen(category, viewModel = viewModel, navController)
+            }
+            composable("gameSnake") {
+                GameSnake()
+            }
+            composable("savedPosts") { SavedPostsScreen(navController = navController, viewModel) }
+            composable("watchLaterPosts") {
+                WatchLaterScreen(
+                    navController = navController,
+                    viewModel
+                )
+            }
+            composable("Comment") { CommentExample(navController = navController) }
+            composable("SuaTaiKhoan") { AccountEditScreen() }
         }
     }
-}
-
-@Composable
-fun BottomNavigationBar(navController: NavController) {
-    val items = listOf(
-        Screen.HomeScreen,
-        Screen.PodcastsScreen,
-        Screen.VideoScreen,
-        Screen.GamesScreen,
-        Screen.MenuScreen
-    )
-    BottomNavigation(
-        backgroundColor = Color.White,
-        contentColor = Color.Black
-    ) {
-        val currentRoute = getCurrentRoute(navController)
-        items.forEach { screen ->
-            BottomNavigationItem(
-                icon = {
-                    Icon(
-                        imageVector = when (screen) {
-                            is Screen.HomeScreen -> Icons.Default.Home
-                            is Screen.PodcastsScreen -> Icons.Default.Headset
-                            is Screen.VideoScreen -> Icons.Default.Videocam
-                            is Screen.GamesScreen -> Icons.Default.VideogameAsset
-                            is Screen.MenuScreen -> Icons.Default.Menu
-                        },
-                        contentDescription = screen.route
-                    )
-                },
-                label = { Text(screen.route) },
-                selected = currentRoute == screen.route,
-                onClick = {
-                    navController.navigate(screen.route) {
-                        popUpTo(navController.graph.startDestinationId) {
-                            saveState = true
-                        }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
-                selectedContentColor = Color(0xFF8B2323),
-                unselectedContentColor = Color.Gray
-            )
-        }
-    }
-}
-
-@Composable
-fun getCurrentRoute(navController: NavController): String? {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    return navBackStackEntry?.destination?.route
 }
 
 @Preview(showBackground = true)

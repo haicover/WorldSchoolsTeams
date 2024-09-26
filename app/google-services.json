@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1009719807804",
+    "project_id": "worldschoolsteams",
+    "storage_bucket": "worldschoolsteams.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009719807804:android:fe488ef9d7b8dab3e19839",
+        "android_client_info": {
+          "package_name": "com.example.worldschoolsteams"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJoBsGcvTMDE6SoWsF0Qx_TE7chiyGyNs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
