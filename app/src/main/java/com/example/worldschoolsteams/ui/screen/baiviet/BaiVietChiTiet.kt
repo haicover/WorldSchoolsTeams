@@ -102,7 +102,7 @@ fun BaiVietChiTiet(
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
-                // Image
+                // Image Main
                 Image(
                     painter = rememberImagePainter(imageUrl),
                     contentDescription = "News Image",
@@ -117,6 +117,7 @@ fun BaiVietChiTiet(
                     text = secondPart,
                     style = MaterialTheme.typography.body1
                 )
+
             }
         }
         BottomBaiViet(

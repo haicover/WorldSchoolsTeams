@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForwardIos
@@ -27,8 +26,6 @@ import androidx.compose.material.icons.filled.Brightness6
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Schedule
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -42,20 +39,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.worldschoolsteams.R
-import com.example.worldschoolsteams.src.data.AuthViewModel
 import com.example.worldschoolsteams.ui.screen.baiviet.PostsViewModel
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -190,7 +183,7 @@ fun MenuScreen(navController: NavHostController, viewModel: PostsViewModel) {
         Row(
             modifier = Modifier
                 .padding(10.dp)
-                .clickable {navController.navigate("savedPosts") },
+                .clickable {navController.navigate("saved") },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -200,7 +193,7 @@ fun MenuScreen(navController: NavHostController, viewModel: PostsViewModel) {
                 tint = Color(0xff999999)
             )
             Text(
-                text = "Tin đã lưu",
+                text = "Xem Tin đã lưu",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Normal,
                 color = Color(0xCC000000),
@@ -283,69 +276,87 @@ fun MenuScreen(navController: NavHostController, viewModel: PostsViewModel) {
                     .padding(start = 20.dp)
             )
         }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(35.dp)
-                .background(Color(0xFFE8F2F3), shape = RoundedCornerShape(5.dp))
-                .border(
-                    BorderStroke(1.dp, Color(0xFFE8F2F3).copy(alpha = 0.7f)),
-                    shape = RoundedCornerShape(5.dp)
-                )
-                .clip(RoundedCornerShape(5.dp)),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Spacer(modifier = Modifier.width(3.dp))
-            // "Bật" Text acting as a button
-            Text(
-                text = "Bật",
-                modifier = Modifier
-                    .weight(0.3f)
-                    .clickable { selectedButton = "Bật" }
-                    .background(
-                        color = if (selectedButton == "Bật") Color.White else Color(0x80FFF8F8),
-                        shape = RoundedCornerShape(5.dp)
-                    ),
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            )
 
-            Spacer(modifier = Modifier.width(5.dp))
-
-            // "Tắt" Text acting as a button
-            Text(
-                text = "Tắt",
-                modifier = Modifier
-                    .weight(0.3f)
-                    .clickable { selectedButton = "Tắt" }
-                    .background(
-                        color = if (selectedButton == "Tắt") Color.White else Color(0x80FFF8F8),
-                        shape = RoundedCornerShape(5.dp)
-                    ),
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            )
-
-            Spacer(modifier = Modifier.width(5.dp))
-
-            // "Hệ thống" Text acting as a button
-            Text(
-                text = "Hệ thống*",
-                modifier = Modifier
-                    .weight(0.3f)
-                    .clickable { selectedButton = "Hệ thống" }
-                    .background(
-                        color = if (selectedButton == "Hệ thống") Color.White else Color(0x80FFF8F8),
-                        shape = RoundedCornerShape(5.dp)
-                    ),
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            )
-            Spacer(modifier = Modifier.width(3.dp))
+//        Row(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(35.dp)
+//                .background(Color(0xFFE8F2F3), shape = RoundedCornerShape(5.dp))
+//                .border(
+//                    BorderStroke(1.dp, Color(0xFFE8F2F3).copy(alpha = 0.7f)),
+//                    shape = RoundedCornerShape(5.dp)
+//                )
+//                .clip(RoundedCornerShape(5.dp)),
+//            horizontalArrangement = Arrangement.Center,
+//            verticalAlignment = Alignment.CenterVertically
+//        ) {
+//            Spacer(modifier = Modifier.width(3.dp))
+//            // "Bật" Text acting as a button
+//            Box(
+//                modifier = Modifier
+//                    .weight(1f)
+//                    .clickable { selectedButton = "Bật" }
+//                    .background(
+//                        color = if (selectedButton == "Bật") Color.White else Color(0x80FFF8F8),
+//                        shape = RoundedCornerShape(5.dp)
+//                    )
+//                    .padding(vertical = 6.dp),
+//                contentAlignment = Alignment.Center
+//            ) {
+//                Text(
+//                    text = "Bật",
+//                    textAlign = TextAlign.Center,
+//                    fontWeight = FontWeight.Bold,
+//                    color = if (selectedButton == "Bật") Color.Black else Color.Gray
+//                )
+//            }
+//
+//            Spacer(modifier = Modifier.width(5.dp))
+//
+//            // "Tắt" Text acting as a button
+//            Box(
+//                modifier = Modifier
+//                    .weight(1f)
+//                    .clickable { selectedButton = "Tắt" }
+//                    .background(
+//                        color = if (selectedButton == "Tắt") Color.White else Color(0x80FFF8F8),
+//                        shape = RoundedCornerShape(5.dp)
+//                    )
+//                    .padding(vertical = 6.dp),
+//                contentAlignment = Alignment.Center
+//            ) {
+//                Text(
+//                    text = "Tắt",
+//                    textAlign = TextAlign.Center,
+//                    fontWeight = FontWeight.Bold,
+//                    color = if (selectedButton == "Tắt") Color.Black else Color.Gray
+//                )
+//            }
+//            Spacer(modifier = Modifier.width(5.dp))
+//
+//            // "Hệ thống" Text acting as a button
+//            Box(
+//                modifier = Modifier
+//                    .weight(1f)
+//                    .clickable { selectedButton = "Hệ thống" }
+//                    .background(
+//                        color = if (selectedButton == "Hệ thống") Color.White else Color(0x80FFF8F8),
+//                        shape = RoundedCornerShape(5.dp)
+//                    )
+//                    .padding(vertical = 6.dp),
+//                contentAlignment = Alignment.Center
+//            ) {
+//                Text(
+//                    text = "Hệ thống*",
+//                    textAlign = TextAlign.Center,
+//                    fontWeight = FontWeight.Bold,
+//                    color = if (selectedButton == "Hệ thống") Color.Black else Color.Gray
+//                )
+//            }
+//            Spacer(modifier = Modifier.width(3.dp))
+//        }
+        ThemeToggleRow(selectedButton) { newSelection ->
+            selectedButton = newSelection
         }
         Spacer(modifier = Modifier.height(40.dp))
         val context = LocalContext.current
@@ -400,6 +411,45 @@ fun MenuScreen(navController: NavHostController, viewModel: PostsViewModel) {
     }
 }
 
+@Composable
+fun ThemeToggleRow(selectedButton: String, onSelectionChange: (String) -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(35.dp)
+            .background(Color(0xFFE8F2F3), shape = RoundedCornerShape(5.dp))
+            .border(
+                BorderStroke(1.dp, Color(0xFFE8F2F3).copy(alpha = 0.7f)),
+                shape = RoundedCornerShape(5.dp)
+            )
+            .clip(RoundedCornerShape(5.dp)),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Spacer(modifier = Modifier.width(3.dp))
+
+        listOf("Bật", "Tắt", "Hệ thống").forEach { option ->
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable { onSelectionChange(option) }
+                    .background(
+                        color = if (selectedButton == option) Color.White else Color(0x80FFF8F8),
+                        shape = RoundedCornerShape(5.dp)
+                    )
+                    .padding(vertical = 6.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = option,
+                    fontWeight = FontWeight.Bold,
+                    color = if (selectedButton == option) Color.Black else Color.Gray
+                )
+            }
+            Spacer(modifier = Modifier.width(5.dp))
+        }
+    }
+}
 
 @Preview(showBackground = true)
 @Composable

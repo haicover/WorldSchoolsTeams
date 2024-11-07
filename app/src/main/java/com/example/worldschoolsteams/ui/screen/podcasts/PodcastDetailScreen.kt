@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Forward30
@@ -29,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -52,7 +54,7 @@ fun PodcastDetailScreen(
     imageUrl: String,
     title: String,
     description: String,
-    date:String,
+    date: String,
     mediaPlayer: MediaPlayer?,
     navController: NavController
 ) {
@@ -85,14 +87,21 @@ fun PodcastDetailScreen(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = title, fontWeight = FontWeight.Bold, fontSize = 24.sp)
+            Text(
+                text = title,
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp,
+                modifier = Modifier.padding(top = 30.dp)
+            )
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = date)
             Spacer(modifier = Modifier.height(8.dp))
             Image(
                 painter = rememberImagePainter(data = imageUrl),
                 contentDescription = title,
-                modifier = Modifier.size(100.dp),
+                modifier = Modifier
+                    .size(300.dp)
+                    .clip(RoundedCornerShape(20.dp)),
                 contentScale = ContentScale.Crop
             )
 

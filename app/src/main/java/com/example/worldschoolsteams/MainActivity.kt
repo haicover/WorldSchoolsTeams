@@ -4,12 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,12 +31,11 @@ import com.example.worldschoolsteams.src.data.AuthViewModel
 import com.example.worldschoolsteams.ui.screen.CommentExample
 import com.example.worldschoolsteams.ui.screen.baiviet.PostsScreen
 import com.example.worldschoolsteams.ui.screen.baiviet.PostsViewModel
+import com.example.worldschoolsteams.ui.screen.baiviet.SavedNewsViewModel
 import com.example.worldschoolsteams.ui.screen.game.GameSnake
 import com.example.worldschoolsteams.ui.screen.menu.AccountEditScreen
 import com.example.worldschoolsteams.ui.screen.menu.SavedPostsScreen
 import com.example.worldschoolsteams.ui.screen.menu.WatchLaterScreen
-
-
 
 class MainActivity : ComponentActivity() {
 
@@ -41,7 +44,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            WorldSchoolsTeamsTheme {
+            var isDarkTheme by remember { mutableStateOf(false) }
+            val systemTheme = isSystemInDarkTheme()
+            var selectedButton by remember { mutableStateOf("Hệ thống") }
+
+            // Chọn theme dựa trên giá trị `selectedButton`
+            val darkTheme = when (selectedButton) {
+                "Bật" -> true
+                "Tắt" -> false
+                else -> systemTheme
+            }
+            WorldSchoolsTeamsTheme(darkTheme = darkTheme) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -108,10 +121,12 @@ class MainActivity : ComponentActivity() {
                         composable("gameSnake") {
                             GameSnake()
                         }
-                        composable("savedPosts") {
+                        composable("saved") {
+
+                            val postsViewModel: SavedNewsViewModel = hiltViewModel()
                             SavedPostsScreen(
                                 navController = navController,
-                                postsViewModel
+                                viewModel = postsViewModel
                             )
                         }
                         composable("watchLaterPosts") {
@@ -121,11 +136,10 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable("Comment") { CommentExample(navController = navController) }
-                        composable("SuaTaiKhoan") { AccountEditScreen() }
+                        composable("SuaTaiKhoan") { AccountEditScreen(navController = navController) }
                     }
                 }
             }
-//
         }
     }
 }

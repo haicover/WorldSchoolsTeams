@@ -1,5 +1,6 @@
 package com.example.worldschoolsteams.ui.screen.search
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -7,7 +8,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,6 +22,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Card
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -38,6 +39,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -51,7 +53,6 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.example.worldschoolsteams.R
 import com.example.worldschoolsteams.src.model.Post
-import com.example.worldschoolsteams.src.model.SearchItem
 import com.example.worldschoolsteams.src.model.getBinhLuanNhieuNhat
 import com.example.worldschoolsteams.src.model.getChanDung
 import com.example.worldschoolsteams.src.model.getDienDan
@@ -64,16 +65,44 @@ import com.example.worldschoolsteams.src.model.getMoiNhat
 import com.example.worldschoolsteams.src.model.getTinTuc
 import com.example.worldschoolsteams.src.model.getTuyenSinh
 import com.example.worldschoolsteams.src.model.getXemNhieuNhat
+import java.time.LocalDate
 
 
+@SuppressLint("NewApi")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchChiTiet(navController: NavController) {
     val itemTitle = navController.currentBackStackEntry?.arguments?.getString("itemTitle") ?: ""
     var searchQuery by remember { mutableStateOf("") }
     val searchHistory = remember { mutableStateListOf<String>() }
+    var startDate by remember { mutableStateOf<LocalDate?>(null) }
+    var endDate by remember { mutableStateOf<LocalDate?>(null) }
+    var selectedCategory by remember { mutableStateOf("Mới nhất") }
+    val categories = listOf(
+        "Mới nhất",
+        "Bình luận nhiều",
+        "Xem nhiều nhất",
+        "Đọc nhiều nhất",
+        "Giáo dục",
+        "Tin tức",
+        "Chân dung",
+        "Học Tiếng Anh",
+        "Diễn đàn",
+        "Du học",
+        "Giáo dục 4.0",
+        "Tuyển sinh"
+    )
+    // Lấy dữ liệu từ các danh sách
     val allSearch =
         getMoiNhat() + getDocNhieuNhat() + getXemNhieuNhat() + getBinhLuanNhieuNhat() + getTinTuc() + getChanDung() + getHocTiengAnh() + getDienDan() + getDuHoc() + getGiaoDuc() + getTuyenSinh() + getGiaoDucNew()
+
+// Lọc dữ liệu theo từ khóa, chuyên mục và ngày tháng
+    val filteredItems = allSearch.filter {
+        it.title.contains(searchQuery, ignoreCase = true) &&
+                (selectedCategory == "Mới nhất" || it.category == selectedCategory) &&
+                (startDate == null || LocalDate.parse(it.date) >= startDate) &&
+                (endDate == null || LocalDate.parse(it.date) <= endDate)
+    }
     val context = LocalContext.current
     val searchResults = allSearch.filter { it.title.contains(itemTitle, ignoreCase = true) }
     Column(
@@ -94,51 +123,62 @@ fun SearchChiTiet(navController: NavController) {
                 .height(34.dp),
             contentScale = ContentScale.Crop
         )
-        Box(
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(top = 30.dp, bottom = 30.dp)
-        ) {
-            OutlinedTextField(
-                value = searchQuery,
+
+        OutlinedTextField(
+            value = searchQuery,
 //                onValueChange = { searchQuery = it },
-                onValueChange = { query ->
-                    searchQuery = query
-                    if (query.isNotEmpty() && query !in searchHistory) {
-                        searchHistory.add(query) // Add to history if not already there
-                    }
-                },
-                placeholder = { Text("Tìm bài viết") },
-                shape = RoundedCornerShape(5.dp),
-                colors = TextFieldDefaults.textFieldColors(
-                    focusedIndicatorColor = Color(0xffECEBEB),
-                    unfocusedIndicatorColor = Color(0xffECEBEB)
-                ),
-                leadingIcon = {
-                    androidx.compose.material3.Icon(
-                        Icons.Default.Search,
-                        contentDescription = null,
-                        tint = Color.Black
-                    )
-                },
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    imeAction = ImeAction.Search,
-                    keyboardType = KeyboardType.Text
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(0xffECEBEB))
+            onValueChange = { query ->
+//                searchQuery = query
+//                if (query.isNotEmpty() && query !in searchHistory) {
+//                    searchHistory.add(query) // Add to history if not already there
+//                }
+                searchQuery = query
+            },
+            placeholder = { Text("Tìm bài viết") },
+            shape = RoundedCornerShape(5.dp),
+            colors = TextFieldDefaults.textFieldColors(
+                focusedIndicatorColor = Color(0xffECEBEB),
+                unfocusedIndicatorColor = Color(0xffECEBEB)
+            ),
+            leadingIcon = {
+                androidx.compose.material3.Icon(
+                    Icons.Default.Search,
+                    contentDescription = null,
+                    tint = Color.Black
+                )
+            },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Search,
+                keyboardType = KeyboardType.Text
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp)
+                .shadow(4.dp, RoundedCornerShape(12.dp)),
 
             )
-        }
 
-        LazyColumn {
-            items(searchResults) { item ->
-                SearchItemCard(item, navController)
+        // Kết quả tìm kiếm
+        if (filteredItems.isEmpty()) {
+            Text(
+                text = "Không tìm thấy kết quả nào",
+                style = MaterialTheme.typography.body1,
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                color = Color.Gray
+            )
+        } else {
+            LazyColumn(
+                modifier = Modifier.padding(top = 8.dp)
+            ) {
+                items(filteredItems) { item ->
+                    SearchItemCard(item, navController)
+                    Divider(color = Color.LightGray)
+                }
             }
         }
     }
 }
+
 
 @Composable
 fun SearchItemCard(item: Post, navController: NavController) {

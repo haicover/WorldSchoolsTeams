@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -22,6 +23,7 @@ import com.example.worldschoolsteams.ui.screen.WelcomeScreen
 import com.example.worldschoolsteams.ui.screen.baiviet.BaiVietChiTiet
 import com.example.worldschoolsteams.ui.screen.baiviet.PostsScreen
 import com.example.worldschoolsteams.ui.screen.baiviet.PostsViewModel
+import com.example.worldschoolsteams.ui.screen.baiviet.SavedNewsViewModel
 import com.example.worldschoolsteams.ui.screen.game.GameSnake
 import com.example.worldschoolsteams.ui.screen.game.GamesScreen
 import com.example.worldschoolsteams.ui.screen.home.HomeScreen
@@ -63,9 +65,10 @@ fun BottomNavigationExample() {
                     navController = navController,
                 )
             }
-            composable("Video") {  backStackEntry ->
+            composable("Video") { backStackEntry ->
                 val category = backStackEntry.arguments?.getString("category") ?: "Mới nhất"
-                VideoScreen(category,navController = navController) }
+                VideoScreen(category, navController = navController)
+            }
             composable("Games") { GamesScreen(navController = navController) }
             composable("Menu") {
                 MenuScreen(
@@ -146,7 +149,10 @@ fun BottomNavigationExample() {
             composable("gameSnake") {
                 GameSnake()
             }
-            composable("savedPosts") { SavedPostsScreen(navController = navController, viewModel) }
+            composable("saved") {
+                val postsViewModel: SavedNewsViewModel = hiltViewModel()
+                SavedPostsScreen(navController = navController, viewModel = postsViewModel)
+            }
             composable("watchLaterPosts") {
                 WatchLaterScreen(
                     navController = navController,
@@ -154,7 +160,7 @@ fun BottomNavigationExample() {
                 )
             }
             composable("Comment") { CommentExample(navController = navController) }
-            composable("SuaTaiKhoan") { AccountEditScreen() }
+            composable("SuaTaiKhoan") { AccountEditScreen(navController = navController) }
         }
     }
 }

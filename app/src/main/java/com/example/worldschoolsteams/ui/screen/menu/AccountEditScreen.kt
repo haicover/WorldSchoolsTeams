@@ -9,14 +9,18 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
@@ -25,6 +29,9 @@ import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,6 +39,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
@@ -40,102 +48,144 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 
 @Composable
-fun AccountEditScreen() {
+fun AccountEditScreen(navController: NavController) {
     var showEditDialog by remember { mutableStateOf<Pair<String, Boolean>?>(null) }
     var showProfileDialog by remember { mutableStateOf(false) }
-
+    var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
     var email by remember { mutableStateOf("haicon12345@gmail.com") }
     var password by remember { mutableStateOf("********") }
     var phoneNumber by remember { mutableStateOf("Chưa có") }
     var fullName by remember { mutableStateOf("Chưa có") }
     var gender by remember { mutableStateOf("Khác") }
     var location by remember { mutableStateOf("Chưa có") }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        // Top Bar
-        Text(
-            text = "Sửa tài khoản",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
 
-        // Profile Picture Section
-        Box(
-            modifier = Modifier
-                .size(100.dp)
-                .align(Alignment.CenterHorizontally)
-                .background(Color(0x80ACACAC), CircleShape)
-                .border(1.dp, Color(0x4A000000), CircleShape)
-                .clickable { showProfileDialog = true }
-        ) {
-            Icon(
-                painter = painterResource(id = android.R.drawable.ic_menu_camera),
-                contentDescription = "Change Profile Picture",
-                tint = Color.Black,
-                modifier = Modifier
-                    .size(30.dp)
-                    .align(Alignment.BottomEnd)
-            )
-        }
 
-        Text(
-            text = "Thay ảnh đại diện",
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            color = Color.Gray,
-            fontSize = 14.sp
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Account Details Section
-        AccountDetailItem(
-            label = "Email",
-            value = email,
-            onEditClick = { showEditDialog = "Email" to false })
-        AccountDetailItem(
-            label = "Mật khẩu",
-            value = password,
-            isPassword = true,
-            onEditClick = { showEditDialog = "Mật khẩu" to true })
-        AccountDetailItem(
-            label = "Số điện thoại",
-            value = phoneNumber,
-            onEditClick = { showEditDialog = "Số điện thoại" to false })
-        AccountDetailItem(
-            label = "Họ và tên",
-            value = fullName,
-            onEditClick = { showEditDialog = "Họ và tên" to false })
-        AccountDetailItem(
-            label = "Giới tính",
-            value = gender,
-            onEditClick = { showEditDialog = "Giới tính" to false })
-        AccountDetailItem(
-            label = "Địa điểm",
-            value = location,
-            onEditClick = { showEditDialog = "Địa điểm" to false })
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        // Delete Account Section
-        Text(
-            text = "Xóa tài khoản",
-            color = Color.Red,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+    // Profile Picture Edit Dialog
+    if (showProfileDialog) {
+        ProfilePictureDialog(
+            onDismiss = { showProfileDialog = false },
+            onImageSelected = { uri -> selectedImageUri = uri }
         )
     }
+    // Sử dụng LazyColumn cho phép cuộn màn hình
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        item {
+            // Header Row with Back button and title
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    androidx.compose.material3.Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "Back"
+                    )
+                }
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(
+                    text = "Sửa tài khoản",
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xff8B2323),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Profile Picture Section
+            Column(
+                modifier = Modifier
+                    .size(100.dp)
+                    .background(Color(0x80ACACAC), CircleShape)
+                    .border(1.dp, Color(0x4A000000), CircleShape)
+                    .clickable { showProfileDialog = true },
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                if (selectedImageUri != null) {
+                    // Hiển thị ảnh đã chọn
+                    Image(
+                        painter = rememberAsyncImagePainter(selectedImageUri),
+                        contentDescription = "Profile Picture",
+                        modifier = Modifier
+                            .size(100.dp)
+                            .clip(CircleShape)
+                            .background(Color.LightGray)
+                    )
+                } else {
+                    // Hiển thị icon camera mặc định nếu chưa chọn ảnh
+                    Icon(
+                        painter = painterResource(id = android.R.drawable.ic_menu_camera),
+                        contentDescription = "Change Profile Picture",
+                        tint = Color.Black,
+                        modifier = Modifier.size(30.dp)
+                    )
+                }
+            }
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(24.dp))
+        }
+
+        // Account Details Section
+        item {
+            AccountDetailItem(
+                label = "Email",
+                value = email,
+                onEditClick = { showEditDialog = "Email" to false })
+        }
+        item {
+            AccountDetailItem(
+                label = "Mật khẩu",
+                value = password,
+                isPassword = true,
+                onEditClick = { showEditDialog = "Mật khẩu" to true })
+        }
+        item {
+            AccountDetailItem(
+                label = "Số điện thoại",
+                value = phoneNumber,
+                onEditClick = { showEditDialog = "Số điện thoại" to false })
+        }
+        item {
+            AccountDetailItem(
+                label = "Họ và tên",
+                value = fullName,
+                onEditClick = { showEditDialog = "Họ và tên" to false })
+        }
+        item {
+            AccountDetailItem(
+                label = "Giới tính",
+                value = gender,
+                onEditClick = { showEditDialog = "Giới tính" to false })
+        }
+        item {
+            AccountDetailItem(
+                label = "Địa điểm",
+                value = location,
+                onEditClick = { showEditDialog = "Địa điểm" to false })
+        }
+    }
+
     // Edit Dialog
     if (showEditDialog != null) {
         EditDialog(
@@ -164,11 +214,6 @@ fun AccountEditScreen() {
                 showEditDialog = null
             }
         )
-    }
-
-    // Profile Picture Edit Dialog
-    if (showProfileDialog) {
-        ProfilePictureDialog(onDismiss = { showProfileDialog = false })
     }
 }
 
@@ -237,25 +282,31 @@ fun EditDialog(
 }
 
 @Composable
-fun ProfilePictureDialog(onDismiss: () -> Unit) {
+fun ProfilePictureDialog(onDismiss: () -> Unit, onImageSelected: (Uri?) -> Unit) {
     val context = LocalContext.current
     val imageUri = remember { mutableStateOf<Uri?>(null) }
     val imageBitmap = remember { mutableStateOf<ImageBitmap?>(null) }
+
     // Camera launcher
-    val cameraLauncher =
-        rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
-            bitmap?.let {
-                imageBitmap.value =
-                    it.asImageBitmap() // Chuyển Bitmap thành ImageBitmap và cập nhật
-            }
+    val cameraLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.TakePicturePreview()
+    ) { bitmap ->
+        bitmap?.let {
+            imageBitmap.value = it.asImageBitmap() // Chuyển Bitmap thành ImageBitmap và cập nhật
+            imageUri.value = null // Reset URI vì chúng ta đang sử dụng Bitmap
         }
+    }
+
     // Gallery launcher
-    val galleryLauncher =
-        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            uri?.let {
-                imageUri.value = uri // Lưu URI ảnh từ thư viện
-            }
+    val galleryLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri ->
+        uri?.let {
+            imageUri.value = uri // Lưu URI ảnh từ thư viện
+            imageBitmap.value = null // Reset Bitmap vì chúng ta đang sử dụng URI
         }
+    }
+
     // Camera permission launcher
     val cameraPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -267,15 +318,20 @@ fun ProfilePictureDialog(onDismiss: () -> Unit) {
                 .show()
         }
     }
+
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text("Thay ảnh đại diện") },
         text = {
-            Column {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
                 // Button để chụp ảnh
-                Button(onClick = {
-                    cameraPermissionLauncher.launch(android.Manifest.permission.CAMERA) // Yêu cầu quyền camera
-                }) {
+                Button(
+                    onClick = {
+                        cameraPermissionLauncher.launch(android.Manifest.permission.CAMERA)
+                    }
+                ) {
                     Text("Chụp Ảnh")
                 }
 
@@ -284,24 +340,35 @@ fun ProfilePictureDialog(onDismiss: () -> Unit) {
                     Text("Chọn Ảnh Từ Thư Viện")
                 }
 
+                Spacer(modifier = Modifier.height(16.dp))
+
                 // Hiển thị ảnh đã chọn hoặc chụp
                 imageBitmap.value?.let { bitmap ->
                     Image(
                         bitmap = bitmap,
                         contentDescription = null,
-                        modifier = Modifier.size(150.dp)
+                        modifier = Modifier
+                            .size(150.dp)
+                            .clip(CircleShape)
+                            .background(Color.LightGray)
                     )
                 } ?: imageUri.value?.let { uri ->
                     Image(
-                        painter = rememberImagePainter(uri),
+                        painter = rememberAsyncImagePainter(uri),
                         contentDescription = null,
-                        modifier = Modifier.size(150.dp)
+                        modifier = Modifier
+                            .size(150.dp)
+                            .clip(CircleShape)
+                            .background(Color.LightGray)
                     )
                 }
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) {
+            TextButton(onClick = {
+                onDismiss()
+                onImageSelected(imageUri.value) // Gửi URI ảnh ra ngoài để cập nhật giao diện
+            }) {
                 Text("Xác nhận")
             }
         },
@@ -313,8 +380,9 @@ fun ProfilePictureDialog(onDismiss: () -> Unit) {
     )
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewAccountEditScreen() {
-    AccountEditScreen()
+    AccountEditScreen(navController = rememberNavController())
 }
