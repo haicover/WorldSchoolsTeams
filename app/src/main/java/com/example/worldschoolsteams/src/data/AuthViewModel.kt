@@ -1,18 +1,11 @@
 package com.example.worldschoolsteams.src.data
 
-import android.content.Context
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.launch
 
 class AuthViewModel() : ViewModel() {
 

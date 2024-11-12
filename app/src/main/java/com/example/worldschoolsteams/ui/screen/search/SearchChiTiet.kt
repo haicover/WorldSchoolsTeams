@@ -126,12 +126,7 @@ fun SearchChiTiet(navController: NavController) {
 
         OutlinedTextField(
             value = searchQuery,
-//                onValueChange = { searchQuery = it },
             onValueChange = { query ->
-//                searchQuery = query
-//                if (query.isNotEmpty() && query !in searchHistory) {
-//                    searchHistory.add(query) // Add to history if not already there
-//                }
                 searchQuery = query
             },
             placeholder = { Text("Tìm bài viết") },

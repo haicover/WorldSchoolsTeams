@@ -12,7 +12,6 @@ data class Post(
 
 
 //"Mới nhất", "Bình luận nhiều", "Xem nhiều nhất", "Đọc nhiều nhất", "Giáo dục"
-// Menu Items Mới nhất
 fun getMoiNhat(): List<Post> {
     return listOf(
         Post(

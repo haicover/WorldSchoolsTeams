@@ -65,9 +65,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 
-
 fun getVideoByCategory(category: String): List<VideoItem> {
-    // Trả về danh sách bài viết tương ứng với danh mục
     return when (category) {
         "Thời sự" -> getVideoThoiSu()
         "Thể thao" -> getVideoTheThao()
@@ -352,7 +350,6 @@ fun NavigationBarVideo(
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

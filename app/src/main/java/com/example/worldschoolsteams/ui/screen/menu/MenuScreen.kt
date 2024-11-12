@@ -40,7 +40,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -276,85 +275,6 @@ fun MenuScreen(navController: NavHostController, viewModel: PostsViewModel) {
                     .padding(start = 20.dp)
             )
         }
-
-//        Row(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .height(35.dp)
-//                .background(Color(0xFFE8F2F3), shape = RoundedCornerShape(5.dp))
-//                .border(
-//                    BorderStroke(1.dp, Color(0xFFE8F2F3).copy(alpha = 0.7f)),
-//                    shape = RoundedCornerShape(5.dp)
-//                )
-//                .clip(RoundedCornerShape(5.dp)),
-//            horizontalArrangement = Arrangement.Center,
-//            verticalAlignment = Alignment.CenterVertically
-//        ) {
-//            Spacer(modifier = Modifier.width(3.dp))
-//            // "Bật" Text acting as a button
-//            Box(
-//                modifier = Modifier
-//                    .weight(1f)
-//                    .clickable { selectedButton = "Bật" }
-//                    .background(
-//                        color = if (selectedButton == "Bật") Color.White else Color(0x80FFF8F8),
-//                        shape = RoundedCornerShape(5.dp)
-//                    )
-//                    .padding(vertical = 6.dp),
-//                contentAlignment = Alignment.Center
-//            ) {
-//                Text(
-//                    text = "Bật",
-//                    textAlign = TextAlign.Center,
-//                    fontWeight = FontWeight.Bold,
-//                    color = if (selectedButton == "Bật") Color.Black else Color.Gray
-//                )
-//            }
-//
-//            Spacer(modifier = Modifier.width(5.dp))
-//
-//            // "Tắt" Text acting as a button
-//            Box(
-//                modifier = Modifier
-//                    .weight(1f)
-//                    .clickable { selectedButton = "Tắt" }
-//                    .background(
-//                        color = if (selectedButton == "Tắt") Color.White else Color(0x80FFF8F8),
-//                        shape = RoundedCornerShape(5.dp)
-//                    )
-//                    .padding(vertical = 6.dp),
-//                contentAlignment = Alignment.Center
-//            ) {
-//                Text(
-//                    text = "Tắt",
-//                    textAlign = TextAlign.Center,
-//                    fontWeight = FontWeight.Bold,
-//                    color = if (selectedButton == "Tắt") Color.Black else Color.Gray
-//                )
-//            }
-//            Spacer(modifier = Modifier.width(5.dp))
-//
-//            // "Hệ thống" Text acting as a button
-//            Box(
-//                modifier = Modifier
-//                    .weight(1f)
-//                    .clickable { selectedButton = "Hệ thống" }
-//                    .background(
-//                        color = if (selectedButton == "Hệ thống") Color.White else Color(0x80FFF8F8),
-//                        shape = RoundedCornerShape(5.dp)
-//                    )
-//                    .padding(vertical = 6.dp),
-//                contentAlignment = Alignment.Center
-//            ) {
-//                Text(
-//                    text = "Hệ thống*",
-//                    textAlign = TextAlign.Center,
-//                    fontWeight = FontWeight.Bold,
-//                    color = if (selectedButton == "Hệ thống") Color.Black else Color.Gray
-//                )
-//            }
-//            Spacer(modifier = Modifier.width(3.dp))
-//        }
         ThemeToggleRow(selectedButton) { newSelection ->
             selectedButton = newSelection
         }
@@ -370,9 +290,6 @@ fun MenuScreen(navController: NavHostController, viewModel: PostsViewModel) {
             modifier = Modifier
                 .padding(10.dp)
                 .clickable {
-                    // Call the logout function in your ViewModel
-//                    authViewModel.logout()
-//                    navController.navigate("welcome")
                     mAuth.signOut()
                     val message = if (mAuth.currentUser == null) {
                         "Đăng xuất thành công"

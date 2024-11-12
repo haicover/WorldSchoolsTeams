@@ -28,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
 import com.example.worldschoolsteams.ui.theme.DarkGreen
 import com.example.worldschoolsteams.ui.theme.Shapes
 import kotlinx.coroutines.CoroutineScope
@@ -53,7 +52,6 @@ fun GameSnake() {
         Snake(game)
     }
 }
-
 
 data class State(val food: Pair<Int, Int>, val snake: List<Pair<Int, Int>>)
 

@@ -15,8 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Forward30
-import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Replay
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -41,7 +39,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.example.worldschoolsteams.R
-import com.example.worldschoolsteams.src.model.PodcastItem
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Date

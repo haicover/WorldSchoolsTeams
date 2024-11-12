@@ -29,23 +29,18 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.example.worldschoolsteams.src.model.Post
-import com.example.worldschoolsteams.ui.screen.baiviet.PostsViewModel
-import com.example.worldschoolsteams.ui.screen.baiviet.SavedNewsRepository
 import com.example.worldschoolsteams.ui.screen.baiviet.SavedNewsViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -145,39 +140,3 @@ fun SavedNewsItem(
         }
     }
 }
-
-
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewList() {
-//
-//    // Tạo ViewModel giả với dữ liệu thử nghiệm
-//    val fakeViewModel = remember {
-//        PostsViewModel().apply {
-//            savePost(
-//                Post(
-//                    id = 1,
-//                    title = "Bài viết 1",
-//                    description = "Nội dung bài viết 1",
-//                    date = "Thứ 4",
-//                    category = "Tin tức",
-//                    imageUrl = "https://vcdn1-vnexpress.vnecdn.net/2024/11/10/T2-1731226922-8181-1731227235.jpg?w=240&h=144&q=100&dpr=1&fit=crop&s=m1i5PfjoUTxhRDvZyLtWkQ",
-//                    timeAgo = "2 giờ trước"
-//                )
-//            )
-//            savePost(
-//                Post(
-//                    id = 2,
-//                    title = "Bài viết 2",
-//                    description = "Nội dung bài viết 2",
-//                    date = "Thứ 4",
-//                    category = "Tin tức",
-//                    imageUrl = "https://vcdn1-vnexpress.vnecdn.net/2024/11/10/T2-1731226922-8181-1731227235.jpg?w=240&h=144&q=100&dpr=1&fit=crop&s=m1i5PfjoUTxhRDvZyLtWkQ",
-//                    timeAgo = "1 giờ trước"
-//                )
-//            )
-//        }
-//    }
-//    // Gọi SavedPostsScreen với ViewModel và NavController giả
-//    SavedPostsScreen(navController = rememberNavController(), viewModel = fakeViewModel)
-//}

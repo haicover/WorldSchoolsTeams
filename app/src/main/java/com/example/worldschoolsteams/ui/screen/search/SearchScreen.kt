@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,10 +21,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Card
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -47,18 +43,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.example.worldschoolsteams.R
 import com.example.worldschoolsteams.src.model.Post
-import com.example.worldschoolsteams.src.model.SearchItem
 import com.example.worldschoolsteams.src.model.getBinhLuanNhieuNhat
 import com.example.worldschoolsteams.src.model.getChanDung
 import com.example.worldschoolsteams.src.model.getDienDan
@@ -80,7 +73,6 @@ fun SearchScreen(navController: NavController) {
     val searchHistory = remember { mutableStateListOf<String>() }
     val allSearch =
         getMoiNhat() + getDocNhieuNhat() + getXemNhieuNhat() + getBinhLuanNhieuNhat() + getTinTuc() + getChanDung() + getHocTiengAnh() + getDienDan() + getDuHoc() + getGiaoDuc() + getTuyenSinh() + getGiaoDucNew()
-    val context = LocalContext.current
     val filteredItems = allSearch.filter { it.title.contains(searchQuery, ignoreCase = true) }
 
     Column(
@@ -141,7 +133,6 @@ fun SearchScreen(navController: NavController) {
         // Display history or results
         if (searchQuery.isEmpty()) {
             // Display history
-
             LazyColumn {
                 items(searchHistory) { item ->
 

@@ -1,8 +1,6 @@
 package com.example.worldschoolsteams.src.navigations
 
 import android.annotation.SuppressLint
-import android.media.MediaPlayer
-import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
@@ -19,7 +17,6 @@ import androidx.navigation.navArgument
 import com.example.worldschoolsteams.src.components.BottomBar
 import com.example.worldschoolsteams.src.data.AuthViewModel
 import com.example.worldschoolsteams.ui.screen.CommentExample
-import com.example.worldschoolsteams.ui.screen.WelcomeScreen
 import com.example.worldschoolsteams.ui.screen.baiviet.BaiVietChiTiet
 import com.example.worldschoolsteams.ui.screen.baiviet.PostsScreen
 import com.example.worldschoolsteams.ui.screen.baiviet.PostsViewModel
@@ -27,7 +24,6 @@ import com.example.worldschoolsteams.ui.screen.baiviet.SavedNewsViewModel
 import com.example.worldschoolsteams.ui.screen.game.GameSnake
 import com.example.worldschoolsteams.ui.screen.game.GamesScreen
 import com.example.worldschoolsteams.ui.screen.home.HomeScreen
-import com.example.worldschoolsteams.ui.screen.login.LoginScreen
 import com.example.worldschoolsteams.ui.screen.menu.AccountEditScreen
 import com.example.worldschoolsteams.ui.screen.menu.MenuScreen
 import com.example.worldschoolsteams.ui.screen.menu.SavedPostsScreen
@@ -35,10 +31,8 @@ import com.example.worldschoolsteams.ui.screen.menu.WatchLaterScreen
 import com.example.worldschoolsteams.ui.screen.podcasts.MediaPlayerHolder
 import com.example.worldschoolsteams.ui.screen.podcasts.PodcastDetailScreen
 import com.example.worldschoolsteams.ui.screen.podcasts.PodcastsScreen
-import com.example.worldschoolsteams.ui.screen.podcasts.podcastItem
 import com.example.worldschoolsteams.ui.screen.search.SearchChiTiet
 import com.example.worldschoolsteams.ui.screen.search.SearchScreen
-import com.example.worldschoolsteams.ui.screen.signup.SignUpScreen
 import com.example.worldschoolsteams.ui.screen.video.VideoScreen
 
 

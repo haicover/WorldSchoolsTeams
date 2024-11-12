@@ -1,6 +1,5 @@
 package com.example.worldschoolsteams.ui.screen.baiviet
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.worldschoolsteams.src.model.Post
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,10 +29,6 @@ class PostsViewModel @Inject constructor() : ViewModel() {
 
     private val _watchLaterPosts = MutableStateFlow<List<Post>>(emptyList())
     val watchLaterPosts: StateFlow<List<Post>> = _watchLaterPosts
-
-//    fun savePost(post: Post) {
-//        _savedPosts.value += post
-//    }
 
     fun addToWatchLater(post: Post) {
         _watchLaterPosts.value += post

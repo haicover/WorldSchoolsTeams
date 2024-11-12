@@ -1,13 +1,10 @@
 package com.example.worldschoolsteams.src.data
 
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 
 class AuthRepository() {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()

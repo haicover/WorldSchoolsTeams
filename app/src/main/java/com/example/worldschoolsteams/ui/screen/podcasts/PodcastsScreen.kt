@@ -1,12 +1,9 @@
 package com.example.worldschoolsteams.ui.screen.podcasts
 
-import android.annotation.SuppressLint
 import android.media.MediaPlayer
 import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,27 +16,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Slider
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -57,14 +45,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.example.worldschoolsteams.R
 import com.example.worldschoolsteams.src.model.PodcastItem
-import kotlinx.coroutines.delay
-import java.io.IOException
 
 val podcastItem = listOf(
     PodcastItem(
@@ -138,9 +123,6 @@ fun PodcastsScreen(navController: NavController) {
     val podcastList = podcastItem
     var currentPlayingId by remember { mutableStateOf<Int?>(null) }
     var mediaPlayer by remember { mutableStateOf<MediaPlayer?>(null) }
-//    var showDialog by remember { mutableStateOf(false) }
-//    var selectedPodcast by remember { mutableStateOf<PodcastItem?>(null) }
-    val context = LocalContext.current
 
     DisposableEffect(Unit) {
         onDispose {

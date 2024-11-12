@@ -2,7 +2,6 @@ package com.example.worldschoolsteams.ui.screen.baiviet
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,11 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -30,8 +24,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.example.worldschoolsteams.src.components.BottomBaiViet
-import com.example.worldschoolsteams.src.model.Post
-import kotlinx.coroutines.delay
 
 
 @Composable
@@ -92,10 +84,6 @@ fun BaiVietChiTiet(
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 // Main content
-//                Text(
-//                    "$description",
-//                    fontSize = 20.sp, color = Color.Black, fontWeight = FontWeight.Normal
-//                )
                 Text(
                     text = firstPart,
                     style = MaterialTheme.typography.body1

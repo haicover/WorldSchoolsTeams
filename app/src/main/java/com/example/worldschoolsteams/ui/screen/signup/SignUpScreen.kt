@@ -1,7 +1,6 @@
 package com.example.worldschoolsteams.ui.screen.signup
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -33,7 +31,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -41,13 +38,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -57,7 +52,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.worldschoolsteams.R
 import com.example.worldschoolsteams.src.data.AuthViewModel
@@ -69,20 +63,6 @@ fun SignUpScreen(navController: NavController, authViewModel: AuthViewModel = vi
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     } // Biến kiểm tra xem email dung dang chua
 
-//    val authState = authViewModel.authState.observeAsState()
-//    val context = LocalContext.current
-//    LaunchedEffect(authState.value) {
-//        when (authState.value) {
-//            is AuthState.SignUpSuccess  -> navController.navigate("login")
-//            is AuthState.Error -> Toast.makeText(
-//                context,
-//                (authState.value as AuthState.Error).message,
-//                Toast.LENGTH_LONG
-//            ).show()
-//
-//            else -> Unit
-//        }
-//    }
     LaunchedEffect(key1 = authViewModel.signUpUIState.signUpSuccessful) {
         if (authViewModel.signUpUIState.signUpSuccessful) {
             navController.navigate("login")
@@ -221,8 +201,6 @@ fun SignUpScreen(navController: NavController, authViewModel: AuthViewModel = vi
         Spacer(modifier = Modifier.height(20.dp))
         Button(
             onClick = {
-//                navController.navigate("login")
-//                authViewModel.signUp(email, password, rePassword)
                 if (isButtonEnabled.value) {
                     authViewModel.signUp(email, password) // Call signUp with email and password
                 }

@@ -6,5 +6,5 @@ data class Comment (
     val content: String,
     val timestamp: String,
     var likeCount: Int,
-    val replies: MutableList<Comment> = mutableListOf()// Initialize replies
+    val replies: MutableList<Comment> = mutableListOf()
 )

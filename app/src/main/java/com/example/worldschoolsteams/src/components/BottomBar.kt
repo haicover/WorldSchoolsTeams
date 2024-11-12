@@ -33,7 +33,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.worldschoolsteams.src.navigations.BottomNavItem
 
 
 @Composable

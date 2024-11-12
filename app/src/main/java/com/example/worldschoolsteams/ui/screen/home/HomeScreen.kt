@@ -73,7 +73,6 @@ fun HeaderComponent(navController: NavHostController) {
                 tint = Color.Black
             )
         }
-
         // Image
         Image(
             painter = painterResource(id = R.drawable.logo), // Replace with your image
